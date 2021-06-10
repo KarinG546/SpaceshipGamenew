@@ -3,54 +3,49 @@ import java.awt.*;
 
 public class GameScene extends JPanel {
     private ImageIcon background;
-    private int scene;
+    private int sceneId;
     private PlayerSpaceship playerSpaceship;
-    private EnemySpaceship enemySpaceship;
+    private EnemySpaceship enemySpaceship1;
     private EnemyFire enemyFire;
     private Explosion explosion;
-   // private JButton playButton;
+    private Level1Scene level1Scene;
 
     public GameScene() {
         this.setDoubleBuffered(true);
         this.setLayout(null);
         this.background = new ImageIcon("images/space.png");
         this.playerSpaceship = new PlayerSpaceship(0,Definitions.SPACESHIP_STARTING_POSITION);
-        this.enemySpaceship = new EnemySpaceship(Definitions.WINDOW_WIDTH,Definitions.SPACESHIP_STARTING_POSITION);
+        this.enemySpaceship1 = new EnemySpaceship(Definitions.WINDOW_WIDTH,Definitions.SPACESHIP_STARTING_POSITION,
+                new ImageIcon("images/enemySpaceship.png"));
         this.enemyFire = new EnemyFire(Definitions.WINDOW_WIDTH,Definitions.SPACESHIP_STARTING_POSITION);
         this.explosion = new Explosion(playerSpaceship.getX(),playerSpaceship.getY());
-        this.scene = 1;
-        /*this.playButton = new JButton("Start Game");
-        this.playButton.setBounds(400,300,200,50);
-        this.playButton.addActionListener((e -> {
-            if (this.scene == Definitions.MENU_SCENE){
-                this.scene = Definitions.LEVEL_1_SCENE;
-            }
-        }));
-        this.add(playButton);*/
+        this.level1Scene= new Level1Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemyFire,
+                this.explosion,this.background);
+        this.add(level1Scene);
         this.mainGameLoop();
 
+    }
+
+    public int startGame(){
+        this.sceneId = Definitions.LEVEL_1_SCENE;
+        return sceneId;
     }
 
     public void paint (Graphics graphics) {
         super.paint(graphics);
         this.background.paintIcon(this,graphics,0,0);
-        switch (this.scene){
+        switch (this.sceneId){
             case Definitions.MENU_SCENE:
                 Graphics2D createGraphics = (Graphics2D) graphics;
                 createGraphics.setFont( new Font("Ariel", Font.BOLD, 50));
                 createGraphics.setPaint( Color.WHITE );
                 createGraphics.drawString("Welcome to Space Wars",200,100);
+                createGraphics.drawString("To start game, press space key",200,600);
                 createGraphics.dispose();
                break;
             case Definitions.LEVEL_1_SCENE:
+                this.level1Scene.paint(graphics);
                // this.playButton.setVisible(false);
-                if(this.playerSpaceship.isAlive()) {
-                    this.playerSpaceship.paint(graphics, this);
-                }
-                this.enemySpaceship.paint(graphics,this);
-                if(this.enemyFire.isAppears()) {
-                    this.enemyFire.paint(graphics, this);
-                }
                 break;
             case Definitions.LOSING_SCENE:
                 Graphics2D createGraphics1 = (Graphics2D) graphics;
@@ -80,15 +75,15 @@ public class GameScene extends JPanel {
     private void mainGameLoop() {
         new Thread(() -> {
             while (true) {
-                switch (this.scene) {
+                switch (this.sceneId) {
                     case Definitions.LEVEL_1_SCENE:
-                        enemySpaceship.moveLeft(this.getGraphics(), this);
+                        enemySpaceship1.moveLeft(this.getGraphics(), this);
                         enemyFire.moveLeft(this.getGraphics(), this);
-                        if (collision(playerSpaceship, enemySpaceship, enemyFire)) {
+                        if (collision(playerSpaceship, enemySpaceship1, this.level1Scene.getEnemyFire())) {
                             this.playerSpaceship.setAlive(false);
                             this.enemyFire.setAppears(false);
                             this.explosion.paint(this.getGraphics(),this);
-                            this.scene = Definitions.LOSING_SCENE;
+                            this.sceneId = Definitions.LOSING_SCENE;
                         }
                 }
                 repaint();

@@ -7,5 +7,6 @@ public class Definitions {
     public static final int LEVEL_2_SCENE = 2;
     public static final int LEVEL_3_SCENE = 3;
     public static final int LEVEL_4_SCENE = 4;
-    public static final int LOSING_SCENE = 5;
+    public static final int LEVEL_5_SCENE = 5;
+    public static final int LOSING_SCENE = 6;
 }

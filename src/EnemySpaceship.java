@@ -6,8 +6,9 @@ public class EnemySpaceship {
     int x;
     int y;
 
-    public EnemySpaceship(int x, int y){
-        this.enemySpaceship = new ImageIcon("images/enemySpaceship.png");
+    public EnemySpaceship(int x, int y,ImageIcon enemySpaceship){
+        this.enemySpaceship=enemySpaceship;
+       // this.enemySpaceship = new ImageIcon("images/enemySpaceship.png");
         this.x = x;
         this.y = y;
     }
