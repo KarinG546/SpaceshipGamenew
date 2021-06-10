@@ -19,7 +19,10 @@ public class Game extends JFrame {
         GameScene gameScene = new GameScene();
         gameScene.setBounds(0,0,Definitions.WINDOW_WIDTH,Definitions.WINDOW_HEIGHT);
         this.add(gameScene);
-        PlayerMovement playerMovement = new PlayerMovement(gameScene.getPlayerSpaceship(), gameScene, gameScene.getGraphics());
+        PlayerMovement playerMovement = new PlayerMovement(gameScene.getLevel1Scene().getPlayerSpaceship(),
+                gameScene,
+                gameScene.getGraphics(),
+                gameScene.getSceneId());
         this.addKeyListener(playerMovement);
 
     }

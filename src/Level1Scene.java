@@ -5,11 +5,12 @@ public class Level1Scene extends DefaultScene {
 
 
 
-    public Level1Scene(GameScene gameScene, PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship,
+    public Level1Scene(GameScene gameScene, PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship1,
                        EnemyFire enemyFire, Explosion explosion, ImageIcon background){
-        super(gameScene,playerSpaceship,enemySpaceship,
+        super(gameScene,playerSpaceship,enemySpaceship1,
                 enemyFire,explosion,background);
         super.setSceneId(Definitions.LEVEL_1_SCENE);
+
 
     }
 
@@ -19,12 +20,24 @@ public class Level1Scene extends DefaultScene {
         createGraphics.setFont( new Font("Ariel", Font.BOLD, 50));
         createGraphics.setPaint( Color.WHITE );
         createGraphics.drawString("level 1 ",400,100);
-        this.getEnemySpaceship().paint(graphics, super.getGameScene());
+        super.getEnemySpaceship().paint(graphics, super.getGameScene());
         if(this.getEnemyFire().isAppears()) {
             this.getEnemyFire().paint(graphics, super.getGameScene());
         }
+    }
 
-
+    public boolean collision (PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship, EnemyFire enemyFire){
+        Rectangle playerRectangleWithEnemy = new Rectangle(playerSpaceship.getX(),playerSpaceship.getY(),90,90);
+        Rectangle playerRectangleWithFire = new Rectangle(playerSpaceship.getX(),playerSpaceship.getY(),75,75);
+        Rectangle enemyRectangle = new Rectangle(enemySpaceship.getX(),
+                enemySpaceship.getY(),100,100);
+        Rectangle enemyFireRectangle = new Rectangle(enemyFire.getX(),
+                enemyFire.getY(),45,45);
+        boolean collision1 = playerRectangleWithEnemy.intersects(enemyRectangle);
+        boolean collision2 = playerRectangleWithFire.intersects(enemyFireRectangle);
+        if (collision1) return collision1;
+        if (collision2) return collision2;
+        return false;
     }
 
 }

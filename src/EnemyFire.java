@@ -7,8 +7,8 @@ public class EnemyFire {
     int y;
     private boolean appears;
 
-    public EnemyFire(int x, int y){
-        this.enemyFire = new ImageIcon("images/enemyFire.png");
+    public EnemyFire(int x, int y, ImageIcon enemyFire){
+        this.enemyFire =enemyFire;
         this.x = x;
         this.y = y;
         this.appears = true;

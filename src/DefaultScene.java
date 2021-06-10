@@ -15,6 +15,7 @@ public class DefaultScene extends JPanel {
     public DefaultScene(GameScene gameScene, PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship,
                        EnemyFire enemyFire, Explosion explosion, ImageIcon background){
         this.gameScene=gameScene;
+        //this.playerSpaceship=playerSpaceship;
         this.playerSpaceship=playerSpaceship;
         this.explosion=explosion;
         this.enemyFire=enemyFire;

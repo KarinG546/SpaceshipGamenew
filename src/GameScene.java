@@ -6,10 +6,12 @@ public class GameScene extends JPanel {
     private int sceneId;
     private PlayerSpaceship playerSpaceship;
     private EnemySpaceship enemySpaceship1,enemySpaceship2,enemySpaceship3;
-    private EnemyFire enemyFire;
+    private EnemyFire enemyFire1,enemyFire2,enemyFire3;
     private Explosion explosion;
     private Level1Scene level1Scene;
     private Level2Scene level2Scene;
+    private MenuScene menuScene;
+    private LosingScene losingScene;
 
     public GameScene() {
         this.setDoubleBuffered(true);
@@ -22,12 +24,20 @@ public class GameScene extends JPanel {
                 new ImageIcon("images/enemySpaceship2.png"));
         this.enemySpaceship3 = new EnemySpaceship(Definitions.WINDOW_WIDTH,Definitions.ENEMY_SPACESHIP_3_STARTING_POSITION,
                 new ImageIcon("images/enemySpaceship3.png"));
-        this.enemyFire = new EnemyFire(Definitions.WINDOW_WIDTH,Definitions.SPACESHIP_STARTING_POSITION);
+        this.enemyFire1 = new EnemyFire(Definitions.WINDOW_WIDTH,Definitions.SPACESHIP_STARTING_POSITION,
+                new ImageIcon("images/enemyFire.png"));
+        this.enemyFire2 = new EnemyFire(this.enemySpaceship2.getX(),Definitions.ENEMY_SPACESHIP_2_STARTING_POSITION+15,
+                new ImageIcon("images/enemyFire2.png"));
+        this.enemyFire3 = new EnemyFire(this.enemySpaceship3.getX(),Definitions.ENEMY_SPACESHIP_3_STARTING_POSITION+3,
+                new ImageIcon("images/enemyFire3.png"));
         this.explosion = new Explosion(playerSpaceship.getX(),playerSpaceship.getY());
-        this.level1Scene= new Level1Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemyFire,
+        this.menuScene = new MenuScene();
+        this.losingScene = new LosingScene();
+        this.level1Scene= new Level1Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemyFire1,
                 this.explosion,this.background);
-        this.level2Scene = new Level2Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemySpaceship2,this.enemySpaceship3,
-                this.enemyFire,this.explosion,this.background);
+        this.level2Scene = new Level2Scene(this,this.playerSpaceship,this.enemySpaceship1,
+                this.enemySpaceship2,this.enemySpaceship3, this.enemyFire1,
+                this.enemyFire2,this.enemyFire3,this.explosion,this.background);
         this.add(level1Scene);
         this.add(level2Scene);
         this.mainGameLoop();
@@ -44,12 +54,7 @@ public class GameScene extends JPanel {
         this.background.paintIcon(this,graphics,0,0);
         switch (this.sceneId){
             case Definitions.MENU_SCENE:
-                Graphics2D createGraphics = (Graphics2D) graphics;
-                createGraphics.setFont( new Font("Ariel", Font.BOLD, 50));
-                createGraphics.setPaint( Color.WHITE );
-                createGraphics.drawString("Welcome to Space Wars",200,100);
-                createGraphics.drawString("To start game, press space key",200,600);
-                createGraphics.dispose();
+                this.menuScene.paint(graphics);
                break;
             case Definitions.LEVEL_1_SCENE:
                 this.level1Scene.paint(graphics);
@@ -58,29 +63,11 @@ public class GameScene extends JPanel {
                 this.level2Scene.paint(graphics);
                 break;
             case Definitions.LOSING_SCENE:
-                Graphics2D createGraphics1 = (Graphics2D) graphics;
-                createGraphics1.setFont( new Font("Ariel", Font.BOLD, 50));
-                createGraphics1.setPaint( Color.WHITE );
-                createGraphics1.drawString("YOU LOST",200,100);
-                createGraphics1.dispose();
+               this.losingScene.paint(graphics);
                 break;
 
         }
 
-    }
-
-    public boolean collision (PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship, EnemyFire enemyFire){
-        Rectangle playerRectangleWithEnemy = new Rectangle(playerSpaceship.getX(),playerSpaceship.getY(),90,90);
-        Rectangle playerRectangleWithFire = new Rectangle(playerSpaceship.getX(),playerSpaceship.getY(),75,75);
-        Rectangle enemyRectangle = new Rectangle(enemySpaceship.getX(),
-                enemySpaceship.getY(),155,155);
-        Rectangle enemyFireRectangle = new Rectangle(enemyFire.getX(),
-                enemyFire.getY(),5,5);
-        boolean collision1 = playerRectangleWithEnemy.intersects(enemyRectangle);
-        boolean collision2 = playerRectangleWithFire.intersects(enemyFireRectangle);
-        if (collision1) return collision1;
-        if (collision2) return collision2;
-        return false;
     }
 
     private void mainGameLoop() {
@@ -89,15 +76,30 @@ public class GameScene extends JPanel {
                 switch (this.sceneId) {
                     case Definitions.LEVEL_1_SCENE:
                         enemySpaceship1.moveLeft(this.getGraphics(), this);
-                        enemyFire.moveLeft(this.getGraphics(), this);
-                        if (collision(playerSpaceship, this.level1Scene.getEnemySpaceship(), this.level1Scene.getEnemyFire())) {
+                        enemyFire1.moveLeft(this.getGraphics(), this);
+                        if (this.level1Scene.collision(playerSpaceship, this.level1Scene.getEnemySpaceship(), this.level1Scene.getEnemyFire())) {
                             this.playerSpaceship.setAlive(false);
-                            this.enemyFire.setAppears(false);
+                            this.enemyFire1.setAppears(false);
                             this.explosion.paint(this.getGraphics(),this);
                             this.sceneId = Definitions.LOSING_SCENE;
                         }
                        if (this.level1Scene.getEnemySpaceship().getX() == 0 )
                            this.sceneId = Definitions.LEVEL_2_SCENE;
+                        break;
+                    case Definitions.LEVEL_2_SCENE:
+                        enemySpaceship2.moveLeft(this.getGraphics(),this);
+                        enemySpaceship3.moveLeft(this.getGraphics(),this);
+                        enemyFire2.moveLeft(this.getGraphics(), this);
+                        enemyFire3.moveLeft(this.getGraphics(), this);
+                        if(this.level2Scene.collision(playerSpaceship,this.enemySpaceship2,this.enemySpaceship3,
+                                this.enemyFire2,this.enemyFire3)){
+                            this.playerSpaceship.setAlive(false);
+                            this.enemyFire2.setAppears(false);
+                            this.enemyFire3.setAppears(false);
+                            this.explosion.paint(this.getGraphics(),this);
+                            this.sceneId = Definitions.LOSING_SCENE;
+
+                        }
                         break;
                 }
                 repaint();
@@ -117,5 +119,66 @@ public class GameScene extends JPanel {
 
     public void setPlayerSpaceship(PlayerSpaceship playerSpaceship) {
         this.playerSpaceship = playerSpaceship;
+    }
+
+    public void setBackground(ImageIcon background) {
+        this.background = background;
+    }
+
+    public int getSceneId() {
+        return sceneId;
+    }
+
+    public void setSceneId(int sceneId) {
+        this.sceneId = sceneId;
+    }
+
+    public EnemySpaceship getEnemySpaceship1() {
+        return enemySpaceship1;
+    }
+
+    public void setEnemySpaceship1(EnemySpaceship enemySpaceship1) {
+        this.enemySpaceship1 = enemySpaceship1;
+    }
+
+    public EnemySpaceship getEnemySpaceship2() {
+        return enemySpaceship2;
+    }
+
+    public void setEnemySpaceship2(EnemySpaceship enemySpaceship2) {
+        this.enemySpaceship2 = enemySpaceship2;
+    }
+
+    public EnemySpaceship getEnemySpaceship3() {
+        return enemySpaceship3;
+    }
+
+    public void setEnemySpaceship3(EnemySpaceship enemySpaceship3) {
+        this.enemySpaceship3 = enemySpaceship3;
+    }
+
+
+    public Explosion getExplosion() {
+        return explosion;
+    }
+
+    public void setExplosion(Explosion explosion) {
+        this.explosion = explosion;
+    }
+
+    public Level1Scene getLevel1Scene() {
+        return level1Scene;
+    }
+
+    public void setLevel1Scene(Level1Scene level1Scene) {
+        this.level1Scene = level1Scene;
+    }
+
+    public Level2Scene getLevel2Scene() {
+        return level2Scene;
+    }
+
+    public void setLevel2Scene(Level2Scene level2Scene) {
+        this.level2Scene = level2Scene;
     }
 }

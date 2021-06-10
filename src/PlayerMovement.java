@@ -7,11 +7,13 @@ public class PlayerMovement implements KeyListener {
     private PlayerSpaceship playerSpaceship;
     private GameScene gameScene;
     private Graphics graphics;
+    private  int sceneId;
 
-    public PlayerMovement(PlayerSpaceship playerSpaceship, GameScene gameScene, Graphics graphics){
+    public PlayerMovement(PlayerSpaceship playerSpaceship, GameScene gameScene, Graphics graphics, int sceneId){
         this.playerSpaceship = playerSpaceship;
         this.gameScene = gameScene;
         this.graphics = graphics;
+        this.sceneId=sceneId;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class PlayerMovement implements KeyListener {
             if (keyCode == KeyEvent.VK_UP) {
                 playerSpaceship.moveUp(this.graphics, gameScene);
             }
-            if (keyCode == KeyEvent.VK_SPACE) {
+            if (keyCode == KeyEvent.VK_SPACE && sceneId == Definitions.MENU_SCENE) {
                 gameScene.startGame();
             }
         }
