@@ -5,12 +5,13 @@ public class EnemySpaceship {
     private ImageIcon enemySpaceship;
     int x;
     int y;
+    private boolean appears;
 
     public EnemySpaceship(int x, int y,ImageIcon enemySpaceship){
         this.enemySpaceship=enemySpaceship;
-       // this.enemySpaceship = new ImageIcon("images/enemySpaceship.png");
         this.x = x;
         this.y = y;
+        this.appears = true;
     }
 
     public void moveLeft(Graphics graphics, GameScene gameScene){
@@ -18,7 +19,16 @@ public class EnemySpaceship {
     }
 
     public void paint (Graphics graphics, GameScene gameScene){
-        this.enemySpaceship.paintIcon(gameScene,graphics,this.x,this.y);
+            this.enemySpaceship.paintIcon(gameScene, graphics, this.x, this.y);
+
+    }
+
+    public boolean isAppears() {
+        return appears;
+    }
+
+    public void setAppears(boolean appears) {
+        this.appears = appears;
     }
 
     public ImageIcon getEnemySpaceship() {

@@ -24,17 +24,16 @@ public class PlayerMovement implements KeyListener {
         int keyCode = keyEvent.getKeyCode();
         if (playerSpaceship.isAlive()) {
             if (keyCode == KeyEvent.VK_DOWN) {
-                    playerSpaceship.moveDown(this.graphics, gameScene);
-                }
-            if (keyCode == KeyEvent.VK_UP) {
-                    playerSpaceship.moveUp(this.graphics, gameScene);
-                }
+                playerSpaceship.moveDown(this.graphics, gameScene);
             }
-        if (keyCode == KeyEvent.VK_SPACE) {
-            gameScene.startGame();
+            if (keyCode == KeyEvent.VK_UP) {
+                playerSpaceship.moveUp(this.graphics, gameScene);
+            }
+            if (keyCode == KeyEvent.VK_SPACE) {
+                gameScene.startGame();
+            }
         }
-        }
-
+    }
     @Override
     public void keyReleased(KeyEvent keyEvent) {
 

@@ -15,7 +15,11 @@ public class Level1Scene extends DefaultScene {
 
     public void paint(Graphics graphics){
         super.paint(graphics);
-        this.getEnemySpaceship().paint(graphics,super.getGameScene());
+        Graphics2D createGraphics = (Graphics2D) graphics;
+        createGraphics.setFont( new Font("Ariel", Font.BOLD, 50));
+        createGraphics.setPaint( Color.WHITE );
+        createGraphics.drawString("level 1 ",400,100);
+        this.getEnemySpaceship().paint(graphics, super.getGameScene());
         if(this.getEnemyFire().isAppears()) {
             this.getEnemyFire().paint(graphics, super.getGameScene());
         }

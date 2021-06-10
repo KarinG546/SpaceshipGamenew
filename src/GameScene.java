@@ -5,10 +5,11 @@ public class GameScene extends JPanel {
     private ImageIcon background;
     private int sceneId;
     private PlayerSpaceship playerSpaceship;
-    private EnemySpaceship enemySpaceship1;
+    private EnemySpaceship enemySpaceship1,enemySpaceship2,enemySpaceship3;
     private EnemyFire enemyFire;
     private Explosion explosion;
     private Level1Scene level1Scene;
+    private Level2Scene level2Scene;
 
     public GameScene() {
         this.setDoubleBuffered(true);
@@ -17,11 +18,18 @@ public class GameScene extends JPanel {
         this.playerSpaceship = new PlayerSpaceship(0,Definitions.SPACESHIP_STARTING_POSITION);
         this.enemySpaceship1 = new EnemySpaceship(Definitions.WINDOW_WIDTH,Definitions.SPACESHIP_STARTING_POSITION,
                 new ImageIcon("images/enemySpaceship.png"));
+        this.enemySpaceship2 = new EnemySpaceship(Definitions.WINDOW_WIDTH,Definitions.ENEMY_SPACESHIP_2_STARTING_POSITION,
+                new ImageIcon("images/enemySpaceship2.png"));
+        this.enemySpaceship3 = new EnemySpaceship(Definitions.WINDOW_WIDTH,Definitions.ENEMY_SPACESHIP_3_STARTING_POSITION,
+                new ImageIcon("images/enemySpaceship3.png"));
         this.enemyFire = new EnemyFire(Definitions.WINDOW_WIDTH,Definitions.SPACESHIP_STARTING_POSITION);
         this.explosion = new Explosion(playerSpaceship.getX(),playerSpaceship.getY());
         this.level1Scene= new Level1Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemyFire,
                 this.explosion,this.background);
+        this.level2Scene = new Level2Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemySpaceship2,this.enemySpaceship3,
+                this.enemyFire,this.explosion,this.background);
         this.add(level1Scene);
+        this.add(level2Scene);
         this.mainGameLoop();
 
     }
@@ -45,7 +53,9 @@ public class GameScene extends JPanel {
                break;
             case Definitions.LEVEL_1_SCENE:
                 this.level1Scene.paint(graphics);
-               // this.playButton.setVisible(false);
+                break;
+            case Definitions.LEVEL_2_SCENE:
+                this.level2Scene.paint(graphics);
                 break;
             case Definitions.LOSING_SCENE:
                 Graphics2D createGraphics1 = (Graphics2D) graphics;
@@ -60,13 +70,14 @@ public class GameScene extends JPanel {
     }
 
     public boolean collision (PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship, EnemyFire enemyFire){
-        Rectangle playerRectangle = new Rectangle(playerSpaceship.getX(),playerSpaceship.getY(),120,120);
+        Rectangle playerRectangleWithEnemy = new Rectangle(playerSpaceship.getX(),playerSpaceship.getY(),90,90);
+        Rectangle playerRectangleWithFire = new Rectangle(playerSpaceship.getX(),playerSpaceship.getY(),75,75);
         Rectangle enemyRectangle = new Rectangle(enemySpaceship.getX(),
                 enemySpaceship.getY(),155,155);
         Rectangle enemyFireRectangle = new Rectangle(enemyFire.getX(),
-                enemyFire.getY(),128,128);
-        boolean collision1 = playerRectangle.intersects(enemyRectangle);
-        boolean collision2 = playerRectangle.intersects(enemyFireRectangle);
+                enemyFire.getY(),5,5);
+        boolean collision1 = playerRectangleWithEnemy.intersects(enemyRectangle);
+        boolean collision2 = playerRectangleWithFire.intersects(enemyFireRectangle);
         if (collision1) return collision1;
         if (collision2) return collision2;
         return false;
@@ -79,12 +90,15 @@ public class GameScene extends JPanel {
                     case Definitions.LEVEL_1_SCENE:
                         enemySpaceship1.moveLeft(this.getGraphics(), this);
                         enemyFire.moveLeft(this.getGraphics(), this);
-                        if (collision(playerSpaceship, enemySpaceship1, this.level1Scene.getEnemyFire())) {
+                        if (collision(playerSpaceship, this.level1Scene.getEnemySpaceship(), this.level1Scene.getEnemyFire())) {
                             this.playerSpaceship.setAlive(false);
                             this.enemyFire.setAppears(false);
                             this.explosion.paint(this.getGraphics(),this);
                             this.sceneId = Definitions.LOSING_SCENE;
                         }
+                       if (this.level1Scene.getEnemySpaceship().getX() == 0 )
+                           this.sceneId = Definitions.LEVEL_2_SCENE;
+                        break;
                 }
                 repaint();
                 try {

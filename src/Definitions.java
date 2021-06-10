@@ -9,4 +9,6 @@ public class Definitions {
     public static final int LEVEL_4_SCENE = 4;
     public static final int LEVEL_5_SCENE = 5;
     public static final int LOSING_SCENE = 6;
+    public static final int ENEMY_SPACESHIP_2_STARTING_POSITION = 150;
+    public static final int ENEMY_SPACESHIP_3_STARTING_POSITION = 400;
 }
