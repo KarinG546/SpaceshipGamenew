@@ -44,7 +44,15 @@ public class GameScene extends JPanel {
                 this.enemyFire2,this.enemyFire3,this.explosion,this.background);
         this.add(level1Scene);
         this.add(level2Scene);
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                System.out.println("Fire has complete");
+            }
+        };
+        timer.schedule(task,100);
         this.mainGameLoop();
+
 
     }
 
@@ -108,7 +116,7 @@ public class GameScene extends JPanel {
                 }
                 repaint();
                 try {
-                    Thread.sleep(25);
+                    Thread.sleep(15);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
