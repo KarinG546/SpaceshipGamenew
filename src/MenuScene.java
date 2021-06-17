@@ -14,7 +14,7 @@ public class MenuScene extends JPanel {
         createGraphics.setFont( new Font("Ariel", Font.BOLD, 50));
         createGraphics.setPaint( Color.WHITE );
         createGraphics.drawString("Welcome to Space Wars",200,100);
-        createGraphics.drawString("To start game, press space key",200,600);
+        createGraphics.drawString("To start game, press enter",200,600);
         createGraphics.dispose();
     }
 

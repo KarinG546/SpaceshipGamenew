@@ -1,9 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameScene extends JPanel {
     private ImageIcon background;
-    private int sceneId;
+    protected int sceneId;
     private PlayerSpaceship playerSpaceship;
     private EnemySpaceship enemySpaceship1,enemySpaceship2,enemySpaceship3;
     private EnemyFire enemyFire1,enemyFire2,enemyFire3;
@@ -181,4 +185,5 @@ public class GameScene extends JPanel {
     public void setLevel2Scene(Level2Scene level2Scene) {
         this.level2Scene = level2Scene;
     }
+
 }

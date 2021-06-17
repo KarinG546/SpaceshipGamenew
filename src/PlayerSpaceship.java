@@ -22,6 +22,14 @@ public class PlayerSpaceship {
         this.playerSpaceship.paintIcon(gameScene,graphics,this.x,this.y=y-4);
     }
 
+    public void moveRight(Graphics graphics, GameScene gameScene){
+        this.playerSpaceship.paintIcon(gameScene,graphics,this.x = x+4,this.y);
+    }
+
+    public void moveLeft (Graphics graphics,GameScene gameScene){
+        this.playerSpaceship.paintIcon(gameScene,graphics,this.x = x-4,this.y);
+    }
+
     public void paint (Graphics graphics, GameScene gameScene){
         this.playerSpaceship.paintIcon(gameScene,graphics,this.x,this.y);
     }
