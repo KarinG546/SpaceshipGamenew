@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class EnemyFire {
     private ImageIcon enemyFire;
-    int x;
-    int y;
+    private int x;
+    private int y;
     private boolean appears;
 
     public EnemyFire(int x, int y, ImageIcon enemyFire){

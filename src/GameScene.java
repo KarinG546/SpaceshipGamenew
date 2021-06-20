@@ -1,9 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameScene extends JPanel {
     private ImageIcon background;
@@ -12,6 +8,7 @@ public class GameScene extends JPanel {
     private EnemySpaceship enemySpaceship1,enemySpaceship2,enemySpaceship3;
     private EnemyFire enemyFire1,enemyFire2,enemyFire3;
     private Explosion explosion;
+    private PlayerFire playerFire;
     private Level1Scene level1Scene;
     private Level2Scene level2Scene;
     private MenuScene menuScene;
@@ -35,22 +32,17 @@ public class GameScene extends JPanel {
         this.enemyFire3 = new EnemyFire(this.enemySpaceship3.getX(),Definitions.ENEMY_SPACESHIP_3_STARTING_POSITION+3,
                 new ImageIcon("images/enemyFire3.png"));
         this.explosion = new Explosion(playerSpaceship.getX(),playerSpaceship.getY());
+        this.playerFire = new PlayerFire(this.playerSpaceship.getX(),this.playerSpaceship.getY()/2,
+                new ImageIcon("images/playerFire.png"));
         this.menuScene = new MenuScene();
         this.losingScene = new LosingScene();
         this.level1Scene= new Level1Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemyFire1,
-                this.explosion,this.background);
+                this.explosion,this.playerFire,this.background);
         this.level2Scene = new Level2Scene(this,this.playerSpaceship,this.enemySpaceship1,
                 this.enemySpaceship2,this.enemySpaceship3, this.enemyFire1,
-                this.enemyFire2,this.enemyFire3,this.explosion,this.background);
+                this.enemyFire2,this.enemyFire3,this.explosion,this.playerFire,this.background);
         this.add(level1Scene);
         this.add(level2Scene);
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            public void run() {
-                System.out.println("Fire has complete");
-            }
-        };
-        timer.schedule(task,100);
         this.mainGameLoop();
 
 

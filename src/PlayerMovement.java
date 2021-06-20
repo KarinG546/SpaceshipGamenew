@@ -37,6 +37,10 @@ public class PlayerMovement implements KeyListener {
             if(keyCode == KeyEvent.VK_RIGHT){
                 playerSpaceship.moveRight(this.graphics,gameScene);
             }
+            if (keyCode == KeyEvent.VK_SPACE) {
+                this.playerSpaceship.fire();
+                System.out.println("Space!!");
+            }
             if (keyCode == KeyEvent.VK_ENTER) {
                 if ( this.gameScene.sceneId == Definitions.MENU_SCENE){
                     gameScene.startGame();

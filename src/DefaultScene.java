@@ -1,26 +1,30 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class DefaultScene extends JPanel {
+public class DefaultScene extends JPanel  {
     private int sceneId;
     private GameScene gameScene;
     private PlayerSpaceship playerSpaceship;
     private EnemySpaceship enemySpaceship;
     private EnemyFire enemyFire;
     private Explosion explosion;
+    private PlayerFire playerFire;
     private ImageIcon background;
 
     public DefaultScene(){}
 
     public DefaultScene(GameScene gameScene, PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship,
-                       EnemyFire enemyFire, Explosion explosion, ImageIcon background){
+                       EnemyFire enemyFire, Explosion explosion,PlayerFire playerFire, ImageIcon background){
         this.gameScene=gameScene;
-        //this.playerSpaceship=playerSpaceship;
         this.playerSpaceship=playerSpaceship;
         this.explosion=explosion;
         this.enemyFire=enemyFire;
         this.enemySpaceship=enemySpaceship;
+        this.playerFire = playerFire;
         this.background=background;
+
     }
 
     public void paint(Graphics graphics){
@@ -29,6 +33,9 @@ public class DefaultScene extends JPanel {
         if(this.playerSpaceship.isAlive()) {
             this.playerSpaceship.paint(graphics, this.gameScene);
         }
+      /*if(this.playerSpaceship.fire()){
+            this.playerFire.paint(graphics,this.gameScene);
+        }*/
 
     }
 
@@ -83,4 +90,5 @@ public class DefaultScene extends JPanel {
     public void setBackground(ImageIcon background) {
         this.background = background;
     }
+
 }

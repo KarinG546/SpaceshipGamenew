@@ -6,9 +6,9 @@ public class Level1Scene extends DefaultScene {
 
 
     public Level1Scene(GameScene gameScene, PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship1,
-                       EnemyFire enemyFire, Explosion explosion, ImageIcon background){
+                       EnemyFire enemyFire, Explosion explosion, PlayerFire playerFire, ImageIcon background){
         super(gameScene,playerSpaceship,enemySpaceship1,
-                enemyFire,explosion,background);
+                enemyFire,explosion,playerFire,background);
         super.setSceneId(Definitions.LEVEL_1_SCENE);
 
 

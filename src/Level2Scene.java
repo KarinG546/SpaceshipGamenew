@@ -7,11 +7,13 @@ public class Level2Scene extends DefaultScene {
     private EnemyFire enemyFire2;
     private EnemyFire enemyFire3;
 
+
     public Level2Scene(GameScene gameScene, PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship1,
                        EnemySpaceship enemySpaceship2, EnemySpaceship enemySpaceship3
-                       ,EnemyFire enemyFire1, EnemyFire enemyFire2,EnemyFire enemyFire3, Explosion explosion, ImageIcon background) {
+                       ,EnemyFire enemyFire1, EnemyFire enemyFire2,EnemyFire enemyFire3, Explosion explosion,
+                       PlayerFire playerFire, ImageIcon background) {
         super(gameScene, playerSpaceship, enemySpaceship1,
-                enemyFire1, explosion, background);
+                enemyFire1, explosion,playerFire, background);
         this.enemySpaceship2=enemySpaceship2;
         this.enemySpaceship3=enemySpaceship3;
         this.enemyFire2=enemyFire2;
