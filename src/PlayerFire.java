@@ -15,12 +15,15 @@ public class PlayerFire {
         this.appears = false;
     }
 
-    public void move(Graphics graphics,GameScene gameScene){
-        this.playerFire.paintIcon(gameScene,graphics,this.x = x+3,this.y);
+    public void move(Graphics graphics,GameScene gameScene) {
+        if (this.x > 0 && this.x < Definitions.WINDOW_WIDTH) {
+            this.playerFire.paintIcon(gameScene, graphics, this.x = x + 3, this.y);
+            //TODO: once the fire shot leaves the screen - eliminate its object
+        }
     }
 
     public void paint(Graphics graphics,GameScene gameScene) {
-            this.playerFire.paintIcon(gameScene, graphics, this.x, this.y);
+          //  this.playerFire.paintIcon(gameScene, graphics, this.x, this.y);
     }
 
     public ImageIcon getPlayerFire() {

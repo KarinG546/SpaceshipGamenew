@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class GameScene extends JPanel implements ActionListener {
+public class GameScene extends JPanel {
     private ImageIcon background;
     protected int sceneId;
     private PlayerSpaceship playerSpaceship;
@@ -16,6 +14,7 @@ public class GameScene extends JPanel implements ActionListener {
     private MenuScene menuScene;
     private LosingScene losingScene;
     private PlayerFire[] playerFires;
+
 
 
     public GameScene() {
@@ -36,8 +35,7 @@ public class GameScene extends JPanel implements ActionListener {
         this.enemyFire3 = new EnemyFire(this.enemySpaceship3.getX(),Definitions.ENEMY_SPACESHIP_3_STARTING_POSITION+3,
                 new ImageIcon("images/enemyFire3.png"));
         this.explosion = new Explosion(playerSpaceship.getX(),playerSpaceship.getY());
-      this.playerFire = new PlayerFire(this.playerSpaceship.getX(),this.playerSpaceship.getY()/2);
-      //this.playerFires = new PlayerFire[100];
+        this.playerFire = new PlayerFire(this.playerSpaceship.getX()+15,this.playerSpaceship.getY()+15);
         this.menuScene = new MenuScene();
         this.losingScene = new LosingScene();
         this.level1Scene= new Level1Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemyFire1,
@@ -45,6 +43,10 @@ public class GameScene extends JPanel implements ActionListener {
         this.level2Scene = new Level2Scene(this,this.playerSpaceship,this.enemySpaceship1,
                 this.enemySpaceship2,this.enemySpaceship3, this.enemyFire1,
                 this.enemyFire2,this.enemyFire3,this.explosion,this.playerFire,this.background);
+        this.playerFires = new PlayerFire[100];
+        for (int i = 0; i < this.playerFires.length; i++) {
+            this.playerFires[i] = new PlayerFire(this.playerSpaceship.getX()+15,this.playerSpaceship.getY()+15);
+        }
         this.add(level1Scene);
         this.add(level2Scene);
         this.mainGameLoop();
@@ -53,19 +55,17 @@ public class GameScene extends JPanel implements ActionListener {
     }
 
     public void addPlayerFire(){
-        PlayerFire newPlayerFire = new PlayerFire(this.playerSpaceship.getX()+50,this.playerSpaceship.getY()+50);
-        this.playerFire = newPlayerFire;
-       // this.playerFire.setAppears(true);
-      //  this.playerFire.move(getGraphics(),this);
-
+        for (int i = 0; i < this.playerFires.length; i++) {
+            PlayerFire playerFire = this.playerFires[i];
+            if (!playerFire.isAppears()) {
+                playerFire.setY(this.playerSpaceship.getY());
+                playerFire.setAppears(true);
+                break;
+            }
+        }
     }
 
-   /* public void initPlayerFire(){
-        playerFires[0] = this.playerFire;
-        for(int i=1;i<playerFires.length;i++){
-            playerFires[i] = new PlayerFire(this.playerSpaceship.getX(),this.playerSpaceship.getY());
-        }
-    }*/
+
 
     public int startGame(){
         this.sceneId = Definitions.LEVEL_1_SCENE;
@@ -93,13 +93,36 @@ public class GameScene extends JPanel implements ActionListener {
 
     }
 
+    public boolean collisionWithPlayerFire (){
+        Rectangle enemyRectangle = new Rectangle(this.enemySpaceship1.getX(),
+                enemySpaceship1.getY(),100,100);
+        Rectangle playerFireRectangle = new Rectangle(playerFire.getX(),
+                playerFire.getY(),45,45);
+        boolean collision = enemyRectangle.intersects(playerFireRectangle);
+        return collision;
+    }
+
     private void mainGameLoop() {
         new Thread(() -> {
             while (true) {
+                int counter = 0;
                 switch (this.sceneId) {
                     case Definitions.LEVEL_1_SCENE:
                         enemySpaceship1.moveLeft(this.getGraphics(), this);
                         enemyFire1.moveLeft(this.getGraphics(), this);
+                        for (PlayerFire fire : this.playerFires) {
+                            if (fire.isAppears()) {
+                                fire.move(this.getGraphics(),this);
+                            }
+                        }
+                        if(collisionWithPlayerFire()){
+                            System.out.println("collision!!");
+                            this.enemySpaceship1.setAppears(false);
+                           // counter++;
+                        }
+                       /* if(counter == 3){
+                            this.enemySpaceship1.setAppears(false);
+                        }*/
                         if (this.level1Scene.collision(playerSpaceship, this.level1Scene.getEnemySpaceship(), this.level1Scene.getEnemyFire())) {
                             this.playerSpaceship.setAlive(false);
                             this.enemyFire1.setAppears(false);
@@ -114,6 +137,11 @@ public class GameScene extends JPanel implements ActionListener {
                         enemySpaceship3.moveLeft(this.getGraphics(),this);
                         enemyFire2.moveLeft(this.getGraphics(), this);
                         enemyFire3.moveLeft(this.getGraphics(), this);
+                        for (PlayerFire fire : this.playerFires) {
+                            if (fire.isAppears()) {
+                                fire.move(this.getGraphics(), this);
+                            }
+                        }
                         if(this.level2Scene.collision(playerSpaceship,this.enemySpaceship2,this.enemySpaceship3,
                                 this.enemyFire2,this.enemyFire3)){
                             this.playerSpaceship.setAlive(false);
@@ -121,7 +149,6 @@ public class GameScene extends JPanel implements ActionListener {
                             this.enemyFire3.setAppears(false);
                             this.explosion.paint(this.getGraphics(),this);
                             this.sceneId = Definitions.LOSING_SCENE;
-
                         }
                         break;
                 }
@@ -133,12 +160,6 @@ public class GameScene extends JPanel implements ActionListener {
                 }
             }
         }).start();
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
 
     }
 

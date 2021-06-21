@@ -31,20 +31,18 @@ public class PlayerMovement implements KeyListener {
             if (keyCode == KeyEvent.VK_UP) {
                 playerSpaceship.moveUp(this.graphics, gameScene);
             }
-            if(keyCode == KeyEvent.VK_LEFT){
-                playerSpaceship.moveLeft(this.graphics,gameScene);
+            if (keyCode == KeyEvent.VK_LEFT) {
+                playerSpaceship.moveLeft(this.graphics, gameScene);
             }
-            if(keyCode == KeyEvent.VK_RIGHT){
-                playerSpaceship.moveRight(this.graphics,gameScene);
+            if (keyCode == KeyEvent.VK_RIGHT) {
+                playerSpaceship.moveRight(this.graphics, gameScene);
             }
             if (keyCode == KeyEvent.VK_SPACE) {
                 this.gameScene.addPlayerFire();
-                this.gameScene.getPlayerFire().move(this.graphics,gameScene);
-            //    this.playerSpaceship.fire();
                 System.out.println("Space!!");
             }
             if (keyCode == KeyEvent.VK_ENTER) {
-                if ( this.gameScene.sceneId == Definitions.MENU_SCENE){
+                if (this.gameScene.sceneId == Definitions.MENU_SCENE) {
                     gameScene.startGame();
                 }
             }

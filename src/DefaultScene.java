@@ -35,12 +35,6 @@ public class DefaultScene extends JPanel  {
         if(this.playerFire.isAppears()){
             this.playerFire.paint(graphics,this.gameScene);
         }
-       /* List<PlayerFire> pf = this.playerSpaceship.getPlayerFireList();
-        for(PlayerFire playerFire : pf){
-            if (playerFire.isAppears()){
-                playerFire.paint(graphics,this.gameScene);
-            }
-        }*/
     }
 
     public int getSceneId() {
