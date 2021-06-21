@@ -24,6 +24,7 @@ public class Level1Scene extends DefaultScene {
         if(this.getEnemyFire().isAppears()) {
             this.getEnemyFire().paint(graphics, super.getGameScene());
         }
+
     }
 
     public boolean collision (PlayerSpaceship playerSpaceship, EnemySpaceship enemySpaceship, EnemyFire enemyFire){

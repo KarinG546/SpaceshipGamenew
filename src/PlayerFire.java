@@ -8,24 +8,19 @@ public class PlayerFire {
     private int y;
     private boolean appears;
 
-    public PlayerFire(int x,int y, ImageIcon playerFire){
+    public PlayerFire(int x,int y){
+        this.playerFire = new ImageIcon("images/playerFire.png");
         this.x =x;
         this.y = y;
-        this.playerFire = playerFire;
-        this.appears = true;
-    }
-
-    public  PlayerFire(int x,int y){
-        this.x = x;
-        this.y = y;
+        this.appears = false;
     }
 
     public void move(Graphics graphics,GameScene gameScene){
         this.playerFire.paintIcon(gameScene,graphics,this.x = x+3,this.y);
     }
 
-    public void paint(Graphics graphics,GameScene gameScene){
-        this.playerFire.paintIcon(gameScene,graphics,this.x,this.y);
+    public void paint(Graphics graphics,GameScene gameScene) {
+            this.playerFire.paintIcon(gameScene, graphics, this.x, this.y);
     }
 
     public ImageIcon getPlayerFire() {

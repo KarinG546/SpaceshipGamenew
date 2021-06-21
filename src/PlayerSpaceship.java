@@ -1,14 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import  java.util.List;
 
 public class PlayerSpaceship {
     private ImageIcon playerSpaceship;
     private int x;
     private int y;
     private boolean alive;
-    private List<PlayerFire> playerFireList;
+
 
 
     public PlayerSpaceship(int x, int y){
@@ -16,11 +14,7 @@ public class PlayerSpaceship {
         this.x = x;
         this.y = y;
         this.alive=true;
-        this.playerFireList = new ArrayList<>();
-    }
 
-    public void fire(){
-        playerFireList.add(new PlayerFire(this.getX(),this.getY()/2));
     }
 
     public void moveDown(Graphics graphics, GameScene gameScene){
@@ -41,14 +35,6 @@ public class PlayerSpaceship {
 
     public void paint (Graphics graphics, GameScene gameScene){
         this.playerSpaceship.paintIcon(gameScene,graphics,this.x,this.y);
-    }
-
-    public List<PlayerFire> getPlayerFireList() {
-        return playerFireList;
-    }
-
-    public void setPlayerFireList(List<PlayerFire> playerFireList) {
-        this.playerFireList = playerFireList;
     }
 
     public boolean isAlive() {
@@ -82,5 +68,4 @@ public class PlayerSpaceship {
     public void setY(int y) {
         this.y = y;
     }
-
 }

@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GameScene extends JPanel {
+public class GameScene extends JPanel implements ActionListener {
     private ImageIcon background;
     protected int sceneId;
     private PlayerSpaceship playerSpaceship;
@@ -13,6 +15,8 @@ public class GameScene extends JPanel {
     private Level2Scene level2Scene;
     private MenuScene menuScene;
     private LosingScene losingScene;
+    private PlayerFire[] playerFires;
+
 
     public GameScene() {
         this.setDoubleBuffered(true);
@@ -32,8 +36,8 @@ public class GameScene extends JPanel {
         this.enemyFire3 = new EnemyFire(this.enemySpaceship3.getX(),Definitions.ENEMY_SPACESHIP_3_STARTING_POSITION+3,
                 new ImageIcon("images/enemyFire3.png"));
         this.explosion = new Explosion(playerSpaceship.getX(),playerSpaceship.getY());
-        this.playerFire = new PlayerFire(this.playerSpaceship.getX(),this.playerSpaceship.getY()/2,
-                new ImageIcon("images/playerFire.png"));
+      this.playerFire = new PlayerFire(this.playerSpaceship.getX(),this.playerSpaceship.getY()/2);
+      //this.playerFires = new PlayerFire[100];
         this.menuScene = new MenuScene();
         this.losingScene = new LosingScene();
         this.level1Scene= new Level1Scene(this,this.playerSpaceship,this.enemySpaceship1,this.enemyFire1,
@@ -47,6 +51,21 @@ public class GameScene extends JPanel {
 
 
     }
+
+    public void addPlayerFire(){
+        PlayerFire newPlayerFire = new PlayerFire(this.playerSpaceship.getX()+50,this.playerSpaceship.getY()+50);
+        this.playerFire = newPlayerFire;
+       // this.playerFire.setAppears(true);
+      //  this.playerFire.move(getGraphics(),this);
+
+    }
+
+   /* public void initPlayerFire(){
+        playerFires[0] = this.playerFire;
+        for(int i=1;i<playerFires.length;i++){
+            playerFires[i] = new PlayerFire(this.playerSpaceship.getX(),this.playerSpaceship.getY());
+        }
+    }*/
 
     public int startGame(){
         this.sceneId = Definitions.LEVEL_1_SCENE;
@@ -114,6 +133,12 @@ public class GameScene extends JPanel {
                 }
             }
         }).start();
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
 
     }
 
@@ -186,4 +211,11 @@ public class GameScene extends JPanel {
         this.level2Scene = level2Scene;
     }
 
+    public PlayerFire getPlayerFire() {
+        return playerFire;
+    }
+
+    public void setPlayerFire(PlayerFire playerFire) {
+        this.playerFire = playerFire;
+    }
 }

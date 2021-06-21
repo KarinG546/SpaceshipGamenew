@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
 
 public class DefaultScene extends JPanel  {
     private int sceneId;
@@ -33,10 +32,15 @@ public class DefaultScene extends JPanel  {
         if(this.playerSpaceship.isAlive()) {
             this.playerSpaceship.paint(graphics, this.gameScene);
         }
-      /*if(this.playerSpaceship.fire()){
+        if(this.playerFire.isAppears()){
             this.playerFire.paint(graphics,this.gameScene);
+        }
+       /* List<PlayerFire> pf = this.playerSpaceship.getPlayerFireList();
+        for(PlayerFire playerFire : pf){
+            if (playerFire.isAppears()){
+                playerFire.paint(graphics,this.gameScene);
+            }
         }*/
-
     }
 
     public int getSceneId() {
